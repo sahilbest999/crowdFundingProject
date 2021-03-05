@@ -26,6 +26,7 @@ module.exports = {
             { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
         ],
         'prettier/prettier': 'error',
+        'react/jsx-props-no-spreading': 'off',
     },
     settings: {
         'import/resolver': {

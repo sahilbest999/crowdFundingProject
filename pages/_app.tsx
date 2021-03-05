@@ -1,9 +1,18 @@
+import 'semantic-ui-css/semantic.min.css'
 import '../styles/globals.css'
+import Head from 'next/head'
+import { AppProps } from 'next/app'
 
-// eslint-disable-next-line react/prop-types
-function MyApp({ Component, pageProps }) {
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    return <Component {...pageProps} />
+function MyApp({ Component, pageProps }: AppProps) {
+    return (
+        <>
+            <Head>
+                <link rel="icon" href="favicon.png" />
+            </Head>
+
+            <Component {...pageProps} />
+        </>
+    )
 }
 
 export default MyApp
