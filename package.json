@@ -9,6 +9,7 @@
         "export": "rm -rf .next && next build && rm -rf dist && next export -o dist"
     },
     "dependencies": {
+        "nanoid": "^3.1.20",
         "next": "10.0.7",
         "react": "17.0.1",
         "react-dom": "17.0.1",

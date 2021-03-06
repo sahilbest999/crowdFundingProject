@@ -4,9 +4,10 @@
 }
 .MainBtns {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     margin: 2.6rem 0 0 0;
+    justify-items: center;
 }
 
 .btnHoverColor {
@@ -29,4 +30,17 @@
     justify-content: space-between;
 }
 @media screen and (max-width: 375px) {
+    .MainBtns {
+        justify-content: center;
+        justify-items: center;
+        margin: 1rem 0 0 0;
+    }
+
+    .MainBtns > * {
+        margin-top: 1rem;
+    }
+
+    .infoDiv {
+        margin: 5rem 0;
+    }
 }
