@@ -1,4 +1,4 @@
-import 'semantic-ui-css/semantic.min.css'
+import 'fomantic-ui-css/semantic.css'
 import '../styles/globals.css'
 import Head from 'next/head'
 import { AppProps } from 'next/app'

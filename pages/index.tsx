@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
     Container,
     Image,
@@ -11,11 +11,10 @@ import {
     Segment,
     Modal,
     Checkbox,
-    Form,
 } from 'semantic-ui-react'
 import ImageN from 'next/image'
-import style from '../styles/Home.module.css'
 import { nanoid } from 'nanoid'
+import style from '../styles/Home.module.css'
 
 const data = [
     {
@@ -49,6 +48,8 @@ const data = [
 ]
 
 const BackthisProject = ({ setModal, showModal, title }: any) => {
+    const radioBtnRef = useRef([])
+
     return (
         <Modal
             closeIcon
@@ -65,66 +66,91 @@ const BackthisProject = ({ setModal, showModal, title }: any) => {
                     </Header.Subheader>
                 </Header>
             </Modal.Header>
-            {data.map(({ SegTitle, price, inStock, info }) => (
-                <Segment disabled={inStock < 1} key={nanoid()} secondary>
-                    <Grid>
-                        <Grid.Row columns={2}>
-                            <Grid.Column width="1">
-                                <Checkbox
-                                    name="BTPGrp"
-                                    disabled={inStock < 1}
-                                    radio
-                                />
-                            </Grid.Column>
-                            <Grid.Column width="15">
-                                <Grid>
-                                    <Grid.Row columns={price ? 3 : 1}>
-                                        {price ? (
-                                            <Grid.Column>
-                                                <Header size="small">
-                                                    {SegTitle}
-                                                </Header>
-                                            </Grid.Column>
-                                        ) : null}
 
-                                        <Grid.Column>
-                                            <Header size="small" color="teal">
-                                                {price
-                                                    ? `Pledge $${price} or more`
-                                                    : 'Pledge with no reward'}
-                                            </Header>
-                                        </Grid.Column>
-                                        {price ? (
-                                            <Grid.Column textAlign="right">
-                                                <Header size="small">
-                                                    {inStock}
-                                                    <span
-                                                        style={{
-                                                            color:
-                                                                'hsl(0, 0%, 39%)',
-                                                            fontSize: '1rem',
-                                                        }}
-                                                    >
-                                                        {' '}
-                                                        left
-                                                    </span>
+            {data.map(({ SegTitle, price, inStock, info }, i) => {
+                return (
+                    <Segment
+                        disabled={inStock < 1}
+                        key={nanoid()}
+                        className={style.shadow1}
+                        style={{ cursor: inStock ? 'pointer' : 'not-allowed' }}
+                        onClick={() => radioBtnRef.current[i].click()}
+                    >
+                        <Grid>
+                            <Grid.Row columns={2}>
+                                <Grid.Column width="1">
+                                    <input
+                                        type="radio"
+                                        name="BTPGrp"
+                                        disabled={inStock < 1}
+                                        color="teal"
+                                        className={`ui radio checkbox ${style.radioBtn}`}
+                                        ref={(el) => {
+                                            radioBtnRef.current[i] = el
+                                        }}
+                                        style={{ marginBottom: '1rem' }}
+                                        onChange={(e) =>
+                                            console.log(e.target.checked)
+                                        }
+                                    />
+                                </Grid.Column>
+                                <Grid.Column width="15">
+                                    <Grid>
+                                        <Grid.Row columns={price ? 3 : 1}>
+                                            {price ? (
+                                                <Grid.Column>
+                                                    <Header size="small">
+                                                        {SegTitle}
+                                                    </Header>
+                                                </Grid.Column>
+                                            ) : null}
+
+                                            <Grid.Column>
+                                                <Header
+                                                    size="small"
+                                                    color="teal"
+                                                >
+                                                    {price
+                                                        ? `Pledge $${price} or more`
+                                                        : 'Pledge with no reward'}
                                                 </Header>
                                             </Grid.Column>
-                                        ) : null}
-                                    </Grid.Row>
-                                    <Grid.Row>
-                                        <Grid.Column>
-                                            <p style={{ color: 'grey' }}>
-                                                {info}
-                                            </p>
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
-            ))}
+                                            {price ? (
+                                                <Grid.Column
+                                                    floated="right"
+                                                    textAlign="right"
+                                                >
+                                                    <Header size="small">
+                                                        {inStock}
+                                                        <span
+                                                            style={{
+                                                                color:
+                                                                    'hsl(0, 0%, 39%)',
+                                                                fontSize:
+                                                                    '1rem',
+                                                            }}
+                                                        >
+                                                            {' '}
+                                                            left
+                                                        </span>
+                                                    </Header>
+                                                </Grid.Column>
+                                            ) : null}
+                                        </Grid.Row>
+                                        <Grid.Row>
+                                            <Grid.Column>
+                                                <p style={{ color: 'grey' }}>
+                                                    {info}
+                                                </p>
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Grid>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Segment>
+                )
+            })}
         </Modal>
     )
 }
