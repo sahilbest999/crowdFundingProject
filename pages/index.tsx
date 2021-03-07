@@ -287,12 +287,21 @@ const PricingSegments = () => {
             {data.map(({ SegTitle, price, info, inStock }) =>
                 price ? (
                     <Segment disabled={inStock < 1} key={nanoid()}>
-                        <Grid verticalAlign="middle">
+                        <Grid verticalAlign="middle" stackable>
                             <Grid.Row columns={2}>
                                 <Grid.Column>
                                     <Header size="small">{SegTitle}</Header>
                                 </Grid.Column>
-                                <Grid.Column textAlign="right">
+                                <Grid.Column
+                                    textAlign="right"
+                                    only="tablet computer"
+                                >
+                                    <Header size="small" color="teal">
+                                        Pledge ${price} or more
+                                    </Header>
+                                </Grid.Column>
+
+                                <Grid.Column only="mobile">
                                     <Header size="small" color="teal">
                                         Pledge ${price} or more
                                     </Header>
@@ -316,7 +325,16 @@ const PricingSegments = () => {
                                         </span>
                                     </Header>
                                 </Grid.Column>
-                                <Grid.Column textAlign="right">
+                                <Grid.Column
+                                    textAlign="right"
+                                    only="tablet computer"
+                                >
+                                    <Button circular color="teal" size="large">
+                                        Select Reward
+                                    </Button>
+                                </Grid.Column>
+
+                                <Grid.Column only="mobile">
                                     <Button circular color="teal" size="large">
                                         Select Reward
                                     </Button>
