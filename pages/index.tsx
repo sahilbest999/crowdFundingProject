@@ -10,7 +10,8 @@ import {
     Progress,
     Segment,
     Modal,
-    Checkbox,
+    Divider,
+    Input,
 } from 'semantic-ui-react'
 import ImageN from 'next/image'
 import { nanoid } from 'nanoid'
@@ -22,6 +23,7 @@ const data = [
         info:
             'Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via email.',
         inStock: 1,
+        maxPrice: 0,
     },
     {
         SegTitle: 'Bamboo Stand',
@@ -29,6 +31,7 @@ const data = [
         info:
             "You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and you'll be added to a special Backer member list.",
         inStock: 101,
+        maxPrice: 74,
     },
     {
         SegTitle: 'Black Edition Stand',
@@ -37,6 +40,7 @@ const data = [
             "You get a Black Special Edition computer stand and a personal thank you. You'll be added to our Backer member list. Shipping is included.",
         inStock: 64,
         textColor: 'black',
+        maxPrice: 199,
     },
     {
         SegTitle: 'Mahogany Special Stand',
@@ -44,6 +48,7 @@ const data = [
         info:
             "You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You'll be added to our Backer member list. Shipping is included.",
         inStock: 0,
+        maxPrice: 200,
     },
 ]
 
@@ -67,13 +72,16 @@ const BackthisProject = ({ setModal, showModal, title }: any) => {
                 </Header>
             </Modal.Header>
 
-            {data.map(({ SegTitle, price, inStock, info }, i) => {
+            {data.map(({ SegTitle, price, inStock, info, maxPrice }, i) => {
                 return (
                     <Segment
                         disabled={inStock < 1}
                         key={nanoid()}
                         className={style.shadow1}
-                        style={{ cursor: inStock ? 'pointer' : 'not-allowed' }}
+                        style={{
+                            cursor: inStock ? 'pointer' : 'not-allowed',
+                            overflowX: 'hidden',
+                        }}
                         onClick={() => radioBtnRef.current[i].click()}
                     >
                         <Grid>
@@ -95,7 +103,7 @@ const BackthisProject = ({ setModal, showModal, title }: any) => {
                                     />
                                 </Grid.Column>
                                 <Grid.Column width="15">
-                                    <Grid>
+                                    <Grid stackable>
                                         <Grid.Row columns={price ? 3 : 1}>
                                             {price ? (
                                                 <Grid.Column>
@@ -119,6 +127,7 @@ const BackthisProject = ({ setModal, showModal, title }: any) => {
                                                 <Grid.Column
                                                     floated="right"
                                                     textAlign="right"
+                                                    only="tablet computer"
                                                 >
                                                     <Header size="small">
                                                         {inStock}
@@ -147,7 +156,124 @@ const BackthisProject = ({ setModal, showModal, title }: any) => {
                                     </Grid>
                                 </Grid.Column>
                             </Grid.Row>
+                            <Grid.Row only="mobile">
+                                {price ? (
+                                    <Grid.Column>
+                                        <Header size="small">
+                                            {inStock}
+                                            <span
+                                                style={{
+                                                    color: 'hsl(0, 0%, 39%)',
+                                                    fontSize: '1rem',
+                                                }}
+                                            >
+                                                {' '}
+                                                left
+                                            </span>
+                                        </Header>
+                                    </Grid.Column>
+                                ) : null}
+                            </Grid.Row>
                         </Grid>
+
+                        <div>
+                            <div
+                                style={{
+                                    width: '200%',
+                                    left: -200,
+                                    transform: 'translateX(-10%)',
+                                }}
+                            >
+                                <Divider />
+                            </div>
+                            <Grid verticalAlign="middle">
+                                <Grid.Row columns={2} only="tablet computer">
+                                    <Grid.Column>
+                                        <span style={{ color: 'grey' }}>
+                                            Enter your Pledge
+                                        </span>
+                                    </Grid.Column>
+                                    <Grid.Column floated="right">
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                float: 'right',
+                                                gap: '1rem',
+                                            }}
+                                        >
+                                            <div className="ui labeled left icon input">
+                                                <i className="dollar sign icon" />
+                                                <input
+                                                    type="number"
+                                                    defaultValue={price}
+                                                    min={price}
+                                                    max={maxPrice}
+                                                    disabled={inStock < 1}
+                                                    style={{
+                                                        borderRadius: 50,
+                                                    }}
+                                                />
+                                            </div>
+
+                                            <Button
+                                                circular
+                                                color="teal"
+                                                disabled={inStock < 1}
+                                                onClick={() => setModal(false)}
+                                            >
+                                                Continue
+                                            </Button>
+                                        </div>
+                                    </Grid.Column>
+                                </Grid.Row>
+
+                                <Grid.Row
+                                    columns={1}
+                                    only="mobile"
+                                    textAlign="center"
+                                >
+                                    <Grid.Column>
+                                        <span style={{ color: 'grey' }}>
+                                            Enter your Pledge
+                                        </span>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row columns={1} only="mobile" centered>
+                                    <Grid.Column>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                gap: '1rem',
+                                            }}
+                                        >
+                                            <div className="ui labeled left icon input">
+                                                <i className="dollar sign icon" />
+                                                <input
+                                                    type="number"
+                                                    defaultValue={price}
+                                                    min={price}
+                                                    max={maxPrice}
+                                                    disabled={inStock < 1}
+                                                    style={{
+                                                        borderRadius: 50,
+                                                    }}
+                                                />
+                                            </div>
+
+                                            <Button
+                                                circular
+                                                color="teal"
+                                                disabled={inStock < 1}
+                                                onClick={() => setModal(false)}
+                                            >
+                                                Continue
+                                            </Button>
+                                        </div>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </div>
                     </Segment>
                 )
             })}
@@ -264,6 +390,7 @@ const ProjectProgress = () => {
     )
 }
 
+// eslint-disable-next-line react/prop-types
 const MainBtns = ({ title }) => {
     const [isBookmarked, setBookmark] = useState(false)
     const [showBTPModal, setBTPModal] = useState(false)
@@ -346,7 +473,7 @@ const Headings = ({ title }: any) => {
 }
 
 export default function Home() {
-    const [title, setTitle] = useState('Mastercraft Bamboo Monitor Riser')
+    const [title] = useState('Mastercraft Bamboo Monitor Riser')
 
     return (
         <>
