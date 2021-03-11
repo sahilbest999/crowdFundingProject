@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
     Container,
     Image,
@@ -16,7 +16,6 @@ import {
 } from 'semantic-ui-react'
 // import ImageN from 'next/image'
 import { nanoid } from 'nanoid'
-// import { slide as RB_Menu } from 'react-burger-menu'
 import style from '../styles/Home.module.css'
 
 const data = [
@@ -122,6 +121,7 @@ const BackthisProject = ({
     title,
     setPurchaseModal,
 }: any) => {
+    const last = useRef(null)
     return (
         <Modal
             closeIcon
@@ -139,7 +139,7 @@ const BackthisProject = ({
                 </Header>
             </Modal.Header>
             <Form
-                name="BTPGrp"
+                name="BTPGrp_"
                 onSubmit={() => {
                     setModal(false)
                     setPurchaseModal(true)
@@ -159,11 +159,9 @@ const BackthisProject = ({
                                 cursor: inStock ? 'pointer' : 'not-allowed',
                                 overflowX: 'hidden',
                             }}
-                            onClick={() => {
+                            onClick={(e) => {
                                 radioBtnRef.current?.click()
                             }}
-                            onFocus={() => console.log('focused Segment')}
-                            onBlur={() => console.log('deselect Segment')}
                         >
                             <Grid>
                                 <Grid.Row columns={2}>
@@ -173,15 +171,28 @@ const BackthisProject = ({
                                             name="BTPGrp"
                                             disabled={inStock < 1}
                                             color="teal"
-                                            className={`ui radio checkbox ${style.radioBtn}`}
+                                            className="ui radio checkbox"
                                             style={{ marginBottom: '1rem' }}
                                             ref={radioBtnRef}
-                                            onFocus={() =>
-                                                console.log('focused Segment')
-                                            }
-                                            onBlur={() =>
-                                                console.log('deselect Segment')
-                                            }
+                                            // onClick={(e) => {
+                                            //     console.log(
+                                            //         'clicked!!',
+                                            //         radioBtnRef
+                                            //     )
+                                            //     setMain(true)
+                                            //     setTimeout(() => {
+                                            //         radioBtnRef.current.focus()
+                                            //         radioBtnRef.current.checked = true
+                                            //     }, 1)
+                                            // }}
+                                            // onBlur={() => {
+                                            //     console.log('blured!')
+
+                                            //     setMain(false)
+                                            //     setTimeout(() => {
+                                            //         radioBtnRef.current.checked = false
+                                            //     }, 1)
+                                            // }}
                                         />
                                     </Grid.Column>
                                     <Grid.Column width="15">
@@ -269,129 +280,124 @@ const BackthisProject = ({
                                 </Grid.Row>
                             </Grid>
 
-                            {showMain && (
-                                <div>
-                                    <div
-                                        style={{
-                                            width: '200%',
-                                            left: -200,
-                                            transform: 'translateX(-10%)',
-                                        }}
-                                    >
-                                        <Divider />
-                                    </div>
-                                    <Grid verticalAlign="middle">
-                                        <Grid.Row
-                                            columns={2}
-                                            only="tablet computer"
-                                        >
-                                            <Grid.Column>
-                                                <span
-                                                    style={{
-                                                        color: 'grey',
-                                                    }}
-                                                >
-                                                    Enter your Pledge
-                                                </span>
-                                            </Grid.Column>
-                                            <Grid.Column floated="right">
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        float: 'right',
-                                                        gap: '1rem',
-                                                    }}
-                                                >
-                                                    <div className="ui labeled left icon input">
-                                                        <i className="dollar sign icon" />
-                                                        <input
-                                                            type="number"
-                                                            defaultValue={price}
-                                                            min={price}
-                                                            max={maxPrice}
-                                                            disabled={
-                                                                inStock < 1
-                                                            }
-                                                            style={{
-                                                                borderRadius: 50,
-                                                            }}
-                                                            required={
-                                                                inStock > 1
-                                                            }
-                                                        />
-                                                    </div>
-
-                                                    <Button
-                                                        circular
-                                                        color="teal"
-                                                        disabled={inStock < 1}
-                                                        type="submit"
-                                                    >
-                                                        Continue
-                                                    </Button>
-                                                </div>
-                                            </Grid.Column>
-                                        </Grid.Row>
-
-                                        <Grid.Row
-                                            columns={1}
-                                            only="mobile"
-                                            textAlign="center"
-                                        >
-                                            <Grid.Column>
-                                                <span
-                                                    style={{
-                                                        color: 'grey',
-                                                    }}
-                                                >
-                                                    Enter your Pledge
-                                                </span>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                        <Grid.Row
-                                            columns={1}
-                                            only="mobile"
-                                            centered
-                                        >
-                                            <Grid.Column>
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        justifyContent:
-                                                            'center',
-                                                        gap: '1rem',
-                                                    }}
-                                                >
-                                                    <div className="ui labeled left icon input">
-                                                        <i className="dollar sign icon" />
-                                                        <input
-                                                            type="number"
-                                                            defaultValue={price}
-                                                            min={price}
-                                                            max={maxPrice}
-                                                            disabled={
-                                                                inStock < 1
-                                                            }
-                                                            style={{
-                                                                borderRadius: 50,
-                                                            }}
-                                                        />
-                                                    </div>
-
-                                                    <Button
-                                                        circular
-                                                        color="teal"
-                                                        disabled={inStock < 1}
-                                                        type="submit"
-                                                    >
-                                                        Continue
-                                                    </Button>
-                                                </div>
-                                            </Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
+                            <div
+                                style={{
+                                    display: showMain ? 'block' : 'block',
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        width: '200%',
+                                        left: -200,
+                                        transform: 'translateX(-10%)',
+                                    }}
+                                >
+                                    <Divider />
                                 </div>
-                            )}
+                                <Grid verticalAlign="middle">
+                                    <Grid.Row
+                                        columns={2}
+                                        only="tablet computer"
+                                    >
+                                        <Grid.Column>
+                                            <span
+                                                style={{
+                                                    color: 'grey',
+                                                }}
+                                            >
+                                                Enter your Pledge
+                                            </span>
+                                        </Grid.Column>
+                                        <Grid.Column floated="right">
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    float: 'right',
+                                                    gap: '1rem',
+                                                }}
+                                            >
+                                                <div className="ui labeled left icon input">
+                                                    <i className="dollar sign icon" />
+                                                    <input
+                                                        type="number"
+                                                        defaultValue={price}
+                                                        min={price}
+                                                        max={maxPrice}
+                                                        disabled={inStock < 1}
+                                                        style={{
+                                                            borderRadius: 50,
+                                                        }}
+                                                        required={inStock > 1}
+                                                    />
+                                                </div>
+
+                                                <Button
+                                                    circular
+                                                    color="teal"
+                                                    disabled={inStock < 1}
+                                                    type="submit"
+                                                >
+                                                    Continue
+                                                </Button>
+                                            </div>
+                                        </Grid.Column>
+                                    </Grid.Row>
+
+                                    <Grid.Row
+                                        columns={1}
+                                        only="mobile"
+                                        textAlign="center"
+                                    >
+                                        <Grid.Column>
+                                            <span
+                                                style={{
+                                                    color: 'grey',
+                                                }}
+                                            >
+                                                Enter your Pledge
+                                            </span>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row
+                                        columns={1}
+                                        only="mobile"
+                                        centered
+                                    >
+                                        <Grid.Column>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    gap: '1rem',
+                                                }}
+                                            >
+                                                <div className="ui labeled left icon input">
+                                                    <i className="dollar sign icon" />
+                                                    <input
+                                                        type="number"
+                                                        defaultValue={price}
+                                                        min={price}
+                                                        max={maxPrice}
+                                                        disabled={inStock < 1}
+                                                        style={{
+                                                            borderRadius: 50,
+                                                        }}
+                                                    />
+                                                </div>
+
+                                                <Button
+                                                    circular
+                                                    color="teal"
+                                                    disabled={inStock < 1}
+                                                    type="submit"
+                                                >
+                                                    Continue
+                                                </Button>
+                                            </div>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                            </div>
                         </Segment>
                     )
                 })}
@@ -558,7 +564,11 @@ const MainBtns = ({ title }) => {
                             onClick={() => setBookmark(!isBookmarked)}
                             style={{ padding: 0 }}
                         >
-                            <div style={{ whiteSpace: 'nowrap' }}>
+                            <div
+                                style={{
+                                    whiteSpace: 'nowrap',
+                                }}
+                            >
                                 <Icon
                                     circular
                                     name="bookmark"
@@ -570,6 +580,7 @@ const MainBtns = ({ title }) => {
                                     style={{
                                         paddingLeft: '0.5rem',
                                         paddingRight: '1rem',
+                                        verticalAlign: 'middle',
                                     }}
                                 >
                                     {isBookmarked ? 'Bookmarked' : 'Bookmark'}
@@ -675,13 +686,13 @@ const Headings = ({ title }: any) => {
     )
 }
 
-const HamburgerMenuBtn = ({ showMenu, setshowMenu }) => {
+const HamburgerMenuBtn = ({ showMenu, setshowMenu }: any) => {
     const styles = {
         container: {
             height: '32px',
             width: '32px',
             display: 'flex',
-            flexDirection: 'column',
+            flexFlow: 'column nowrap',
             justifyContent: 'center',
             alignItems: 'center',
             cursor: 'pointer',
@@ -748,7 +759,7 @@ const NavBar = () => {
                 <Grid.Column only="computer">
                     <Menu secondary floated="right">
                         {menuItems.map(([ItemName, ItemLink]) => (
-                            <Menu.Item fitted>
+                            <Menu.Item fitted key={nanoid()}>
                                 <a href={ItemLink} className={style.NavItem}>
                                     {ItemName}
                                 </a>
@@ -788,7 +799,7 @@ const NavBar = () => {
                             >
                                 {menuItems.map(([ItemName, ItemLink]) => {
                                     return (
-                                        <Menu.Item>
+                                        <Menu.Item key={nanoid()}>
                                             <a
                                                 href={ItemLink}
                                                 style={{ fontWeight: 'bolder' }}
