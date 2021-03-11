@@ -775,7 +775,8 @@ const NavBar = () => {
                                 opacity: showMenu ? 1 : 0,
                                 transform: showMenu
                                     ? 'translateY(0)'
-                                    : 'translateY(-200%)',
+                                    : 'translateY(-100%)',
+                                visibility: showMenu ? 'visible' : 'hidden',
                             }}
                         >
                             <Menu
